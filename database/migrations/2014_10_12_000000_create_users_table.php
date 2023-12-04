@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('gender');
             $table->string('geoAddress');
             $table->string('phone');
-            $table->text('photoIdFront');
-            $table->text('photoIdBack');
-            $table->text('photoFacial');
+            $table->longText('photoIdFront');
+            $table->longText('photoIdBack');
+            $table->longText('photoFacial');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

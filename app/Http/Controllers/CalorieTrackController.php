@@ -34,7 +34,7 @@ class CalorieTrackController extends Controller
       $query->whereBetween('dateFood', [$startDate, $endDate]);
     }
 
-    $results = $query->get();
+    $results = $query->get()->latest()->paginate();
 
     return response()->json(['data' => $results], 200);
 
