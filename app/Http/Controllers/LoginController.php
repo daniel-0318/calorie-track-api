@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function login(Request $request)
-  {
+    public function login(Request $request){
     $this->validateLogin($request);
 
     if (Auth::attempt($request->only("email", "password"))) {
@@ -24,12 +23,16 @@ class LoginController extends Controller
     ],401);
   }
 
-  public function validateLogin(Request $request)
-  {
+  public function validateLogin(Request $request) {
     return $request->validate([
       "email" => "required|email",
       "password" => "required",
       'name' => 'required'
     ]);
+  }
+
+  public function logout(){
+    Auth::logout();
+    return response()->json(['message'=> 'Sucess'],200);
   }
 }

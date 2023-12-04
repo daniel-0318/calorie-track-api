@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\calorieTrack;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -18,6 +17,27 @@ class CalorieTrackController extends Controller
 
   public function show($id){
     return calorieTrack::find($id);
+  }
+
+  public function search(Request $request){
+
+    $text = $request->input('search_text');
+    $startDate = $request->input('start_date');
+    $endDate = $request->input('end_date');
+
+    $query = calorieTrack::query();
+    if ($text) {
+      $query->where('food','like','%'.$text.'%');
+    }
+
+    if($startDate && $endDate){
+      $query->whereBetween('dateFood', [$startDate, $endDate]);
+    }
+
+    $results = $query->get();
+
+    return response()->json(['data' => $results], 200);
+
   }
 
   public function store(Request $request){
