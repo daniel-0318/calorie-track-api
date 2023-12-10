@@ -18,7 +18,7 @@ class CalorieTrackFactory extends Factory
     {
         return [
             'user_id' => rand(1,4),
-            'food' => fake()->name(),
+            'food' => fake()->randomElement(["Pan","arroz", "Pollo asado", "ensalada", "sopa", "hamburguesa"]),
             'quantity' => fake()->randomNumber(),
             'calories'=> fake()->randomNumber(),
             'dateFood'=> now(),

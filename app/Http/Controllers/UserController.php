@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -51,11 +52,32 @@ class UserController extends Controller
     return response()->json(['message' => 'Sucess'], 200);
   }
 
-  /**
-   * Remove the specified resource from storage.
-   */
   public function destroy()
   {
-    //
+    
   }
+
+  public function updatePassword(Request $request){
+    $user = Auth::user();
+    $rules = [
+      'current_password' => 'required',
+      'password' => 'required|min:6',
+    ];
+
+    $this->validate($request, $rules);
+
+
+    if (!Hash::check($request->input('current_password'), $user->password)) {
+      return response()->json(['message' => 'La contraseña actual no coincide'], 401);
+    }
+
+    $user->password = bcrypt($request->input('password'));
+    $user->save();
+
+    return response()->json(['message' => 'Contraseña actualizada con éxito'], 200);
+
+  }
+
+
+
 }
